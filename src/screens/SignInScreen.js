@@ -6,8 +6,8 @@ import PrimaryButton from '../components/PrimaryButton';
 import SocialButton from '../components/SocialButton';
 
 export default function SignInScreen({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('test@example.com');
+  const [password, setPassword] = useState('password');
 
   return (
     <SafeAreaView style={styles.safeArea}>
