@@ -9,6 +9,7 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import OtpVerificationScreen from '../screens/OtpVerificationScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import SuccessModalScreen from '../screens/SuccessModalScreen';
+import ProductsScreen from '../screens/ProductsScreen';
 import MainTabNavigator from './MainTabNavigator';
 
 const Stack = createNativeStackNavigator();
@@ -25,6 +26,7 @@ export default function AppNavigator() {
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="SuccessModal" component={SuccessModalScreen} options={{ presentation: 'modal' }} />
         <Stack.Screen name="Home" component={MainTabNavigator} />
+        <Stack.Screen name="Products" component={ProductsScreen} />
       </Stack.Navigator>
 
     </NavigationContainer>

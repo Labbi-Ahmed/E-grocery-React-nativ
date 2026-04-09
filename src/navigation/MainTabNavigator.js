@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { COLORS } from '../constants/Theme';
 
 import HomeScreen from '../screens/HomeScreen';
+import CategoriesScreen from '../screens/CategoriesScreen';
 
 // Dummy placeholders
 const PlaceholderScreen = ({ route }) => (
@@ -81,8 +82,8 @@ export default function MainTabNavigator() {
       
       {/* Floating Action Button in Center */}
       <Tab.Screen 
-        name="Menu" 
-        component={PlaceholderScreen} 
+        name="Categories" 
+        component={CategoriesScreen} 
         options={{ 
           tabBarIcon: () => (
             <View style={{flexWrap: 'wrap', width: 20, height: 20, flexDirection: 'row', justifyContent: 'space-between', alignContent: 'space-between'}}>
