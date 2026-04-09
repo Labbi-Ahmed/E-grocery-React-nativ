@@ -3,23 +3,34 @@ import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, SIZES } from '../constants/Theme';
 
-const SearchBar = ({ onFilterPress }) => {
+const SearchBar = ({ onFilterPress, value, onChangeText, editable = true }) => {
   const navigation = useNavigation();
+
+  const isNavigationMode = !onChangeText;
+
+  const handlePress = () => {
+    if (isNavigationMode) {
+      navigation.navigate('Search');
+    }
+  };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity 
         style={styles.inputContainer} 
-        activeOpacity={0.8}
-        onPress={() => navigation.navigate('Search')}
+        activeOpacity={isNavigationMode ? 0.8 : 1}
+        onPress={handlePress}
+        disabled={!isNavigationMode}
       >
         <Text style={styles.searchIcon}>🔍</Text>
-        <View pointerEvents="none" style={{ flex: 1 }}>
+        <View style={{ flex: 1 }} pointerEvents={isNavigationMode ? 'none' : 'auto'}>
           <TextInput
             style={styles.input}
             placeholder="Search here..."
             placeholderTextColor={COLORS.gray}
-            editable={false}
+            value={value}
+            onChangeText={onChangeText}
+            editable={!isNavigationMode && editable}
           />
         </View>
       </TouchableOpacity>

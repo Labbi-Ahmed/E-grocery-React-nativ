@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SIZES } from '../constants/Theme';
 import ProductCard from '../components/ProductCard';
+import EmptyState from '../components/EmptyState';
 
 const RECENT_SEARCHES = ['Cow meat', 'Cooking oil', 'Vegetables'];
 
@@ -98,19 +99,7 @@ export default function SearchScreen({ navigation }) {
             <Text style={styles.resultText}>Result for "{searchQuery}"</Text>
             <Text style={styles.resultCount}>0 found</Text>
           </View>
-          
-          <View style={styles.notFoundContent}>
-            <View style={styles.illustrationContainer}>
-              <Text style={styles.illustration}>📦 🔍</Text>
-              <View style={styles.xMark}>
-                <Text style={styles.xMarkText}>✕</Text>
-              </View>
-            </View>
-            <Text style={styles.notFoundTitle}>Not Found</Text>
-            <Text style={styles.notFoundDesc}>
-              Sorry, the keyword you entered cannot be found. Please check again or search with another keyword.
-            </Text>
-          </View>
+          <EmptyState />
         </View>
       )}
       

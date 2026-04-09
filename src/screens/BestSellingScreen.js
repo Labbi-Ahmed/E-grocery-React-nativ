@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SIZES } from '../constants/Theme';
 
 import SearchBar from '../components/SearchBar';
 import ProductCard from '../components/ProductCard';
+import EmptyState from '../components/EmptyState';
 
 const BEST_SELLING_PRODUCTS = [
   { id: '1', title: 'Beef Kima', price: 59.00, originalPrice: 100.00, discount: 50 },
@@ -16,10 +17,10 @@ const BEST_SELLING_PRODUCTS = [
 ];
 
 export default function BestSellingScreen({ navigation }) {
-  const ListHeader = () => (
-    <View style={styles.headerContainer}>
-      <SearchBar onFilterPress={() => {}} />
-    </View>
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredProducts = BEST_SELLING_PRODUCTS.filter(product =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -36,7 +37,7 @@ export default function BestSellingScreen({ navigation }) {
       
       <View style={styles.container}>
         <FlatList
-          data={BEST_SELLING_PRODUCTS}
+          data={filteredProducts}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <View style={styles.cardWrapper}>
@@ -46,7 +47,16 @@ export default function BestSellingScreen({ navigation }) {
           numColumns={2}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
-          ListHeaderComponent={ListHeader}
+          ListHeaderComponent={
+            <View style={styles.headerContainer}>
+              <SearchBar 
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                onFilterPress={() => {}} 
+              />
+            </View>
+          }
+          ListEmptyComponent={<EmptyState />}
         />
       </View>
     </SafeAreaView>

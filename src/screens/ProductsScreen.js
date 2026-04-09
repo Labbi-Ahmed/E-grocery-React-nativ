@@ -8,6 +8,7 @@ import SearchBar from '../components/SearchBar';
 import CategoryChips from '../components/CategoryChips';
 import ProductCard from '../components/ProductCard';
 import FilterModal from '../components/FilterModal';
+import EmptyState from '../components/EmptyState';
 
 // Dummy Products Data
 const PRODUCTS = [
@@ -21,18 +22,11 @@ const PRODUCTS = [
 
 export default function ProductsScreen({ route, navigation }) {
   const [filterVisible, setFilterVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const categoryName = route.params?.category || 'Products';
 
-  const ListHeader = () => (
-    <View style={styles.headerContainer}>
-      <SearchBar onFilterPress={() => setFilterVisible(true)} />
-      <View style={styles.chipsContainer}>
-        <CategoryChips />
-      </View>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>All Products</Text>
-      </View>
-    </View>
+  const filteredProducts = PRODUCTS.filter(product => 
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -49,7 +43,7 @@ export default function ProductsScreen({ route, navigation }) {
       
       <View style={styles.container}>
         <FlatList
-          data={PRODUCTS}
+          data={filteredProducts}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <View style={styles.cardWrapper}>
@@ -59,7 +53,27 @@ export default function ProductsScreen({ route, navigation }) {
           numColumns={2}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
-          ListHeaderComponent={ListHeader}
+          ListHeaderComponent={
+            <View style={styles.headerContainer}>
+              <SearchBar 
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                onFilterPress={() => setFilterVisible(true)} 
+              />
+              <View style={styles.chipsContainer}>
+                <CategoryChips />
+              </View>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitle}>
+                  {searchQuery ? `Result for "${searchQuery}"` : 'All Products'}
+                </Text>
+                {searchQuery !== '' && (
+                  <Text style={{color: COLORS.gray}}>{filteredProducts.length} found</Text>
+                )}
+              </View>
+            </View>
+          }
+          ListEmptyComponent={<EmptyState />}
         />
       </View>
 
