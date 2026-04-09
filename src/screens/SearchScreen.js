@@ -2,11 +2,25 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SIZES } from '../constants/Theme';
+import ProductCard from '../components/ProductCard';
 
 const RECENT_SEARCHES = ['Cow meat', 'Cooking oil', 'Vegetables'];
 
+const ALL_PRODUCTS = [
+  { id: '1', title: 'Beef Kima', price: 59.00, originalPrice: 100.00, discount: 50 },
+  { id: '2', title: 'Meat Big', price: 59.00, originalPrice: 100.00, discount: 50 },
+  { id: '3', title: 'Beef Leg', price: 59.00, originalPrice: 100.00, discount: 50 },
+  { id: '4', title: 'Cooking oil', price: 15.00, originalPrice: 20.00, discount: 25 },
+  { id: '5', title: 'Cow meat', price: 45.00, originalPrice: 60.00, discount: 15 },
+  { id: '6', title: 'Chicken Sharma', price: 12.00, originalPrice: 24.00, discount: 50 },
+];
+
 export default function SearchScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
+  
+  const filteredProducts = ALL_PRODUCTS.filter(product => 
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   
   const renderRecentSearch = ({ item }) => (
     <View style={styles.recentItem}>
@@ -14,7 +28,7 @@ export default function SearchScreen({ navigation }) {
         <Text style={styles.recentIcon}>🕒</Text>
         <Text style={styles.recentText}>{item}</Text>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => setSearchQuery(item)}>
         <Text style={styles.removeIcon}>✕</Text>
       </TouchableOpacity>
     </View>
@@ -57,6 +71,25 @@ export default function SearchScreen({ navigation }) {
             keyExtractor={item => item}
             renderItem={renderRecentSearch}
             scrollEnabled={false}
+          />
+        </View>
+      ) : filteredProducts.length > 0 ? (
+        <View style={styles.resultsContainer}>
+          <View style={styles.resultHeader}>
+            <Text style={styles.resultText}>Result for "{searchQuery}"</Text>
+            <Text style={styles.resultCount}>{filteredProducts.length} found</Text>
+          </View>
+          <FlatList
+            data={filteredProducts}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.cardWrapper}>
+                <ProductCard product={item} />
+              </View>
+            )}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.resultsListContent}
           />
         </View>
       ) : (
@@ -242,5 +275,18 @@ const styles = StyleSheet.create({
     color: COLORS.gray,
     textAlign: 'center',
     lineHeight: 22,
+  },
+  resultsContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  resultsListContent: {
+    paddingBottom: 30,
+  },
+  cardWrapper: {
+    flex: 1,
+    paddingHorizontal: 5,
+    marginBottom: 10,
+    alignItems: 'center',
   },
 });

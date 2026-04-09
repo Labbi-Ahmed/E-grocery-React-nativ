@@ -4,39 +4,39 @@ import { useNavigation } from '@react-navigation/native';
 import { COLORS, SIZES } from '../constants/Theme';
 import { useAppContext } from '../context/AppContext';
 
+const FLAGS = { EN: '🇬🇧', PT: '🇵🇹', NG: '🇳🇬', FR: '🇫🇷', ZH: '🇨🇳', JA: '🇯🇵', ID: '🇮🇩' };
+
 const HomeHeader = ({ onMenuPress }) => {
   const navigation = useNavigation();
-  const { currency } = useAppContext();
+  const { currency, language } = useAppContext();
 
   return (
     <View style={styles.container}>
-      {/* Menu Icon */}
+      {/* Left: Menu Icon (Green Lines) */}
       <TouchableOpacity style={styles.iconContainer} onPress={onMenuPress}>
-        <View style={styles.menuLine} />
-        <View style={[styles.menuLine, { width: 14 }]} />
-        <View style={styles.menuLine} />
+        <View style={styles.menuLineGreen} />
+        <View style={[styles.menuLineGreen, { width: 14 }]} />
+        <View style={styles.menuLineGreen} />
       </TouchableOpacity>
 
-      {/* Location / Currency Selector */}
-      <TouchableOpacity style={styles.locationContainer} onPress={() => navigation.navigate('Currency')}>
-        <Text style={styles.locationLabel}>Location/Currency</Text>
-        <View style={styles.locationRow}>
-          <Text style={styles.locationValue}>USA, {currency} ($)</Text>
-          <Text style={styles.arrowIcon}>▼</Text>
+      {/* Center: Currency Selector */}
+      <TouchableOpacity style={styles.centerContainer} onPress={() => navigation.navigate('Currency')}>
+        <View style={styles.currencyRow}>
+          <Text style={styles.currencyLabel}>Current Currency</Text>
+          <Text style={styles.greenChevron}> ⌄</Text>
         </View>
+        <Text style={styles.currencyValue}>($) - {currency}</Text>
       </TouchableOpacity>
-
-      {/* Action Icons */}
-      <View style={styles.actionsContainer}>
-        <TouchableOpacity style={styles.iconContainer}>
-          <Text style={styles.bellIcon}>🔔</Text>
+      
+      {/* Right: Language Pill & 3-Dots */}
+      <View style={styles.rightContainer}>
+        <TouchableOpacity style={styles.langPill} onPress={() => navigation.navigate('Language')}>
+          <Text style={styles.flagIcon}>{FLAGS[language] || '🌐'}</Text>
+          <Text style={styles.greenChevronSmall}> ⌄</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.cartContainer}>
-          <Text style={styles.cartIcon}>🛒</Text>
-          <View style={styles.cartBadge}>
-            <Text style={styles.cartBadgeText}>2</Text>
-          </View>
+        <TouchableOpacity style={styles.dotsButton}>
+          <Text style={styles.dotsIcon}>⋮</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -51,84 +51,78 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
     backgroundColor: COLORS.white,
-    paddingBottom: 10,
+    paddingBottom: 15,
   },
   iconContainer: {
     width: 40,
     height: 40,
-    borderRadius: 20,
-    backgroundColor: COLORS.background,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
-  menuLine: {
-    width: 18,
-    height: 2,
-    backgroundColor: COLORS.text,
-    marginVertical: 2,
-    borderRadius: 1,
+  menuLineGreen: {
+    width: 22,
+    height: 2.5,
+    backgroundColor: COLORS.primary, // Green lines
+    marginVertical: 3,
+    borderRadius: 1.5,
   },
-  locationContainer: {
+  centerContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1, // Let it take available space
   },
-  locationLabel: {
-    fontSize: SIZES.small,
-    color: COLORS.gray,
-  },
-  locationRow: {
+  currencyRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 2,
   },
-  locationValue: {
+  currencyLabel: {
     fontSize: 14,
     color: COLORS.text,
-    fontWeight: 'bold',
-    marginRight: 4,
   },
-  arrowIcon: {
-    fontSize: 10,
+  greenChevron: {
+    fontSize: 16,
+    color: COLORS.primary,
+    marginTop: -8, // visually align the chevron
+  },
+  currencyValue: {
+    fontSize: 14,
     color: COLORS.text,
+    fontWeight: '700',
+    marginTop: 2,
   },
-  actionsContainer: {
+  rightContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-end',
+    width: 80, // give enough room for the components
   },
-  bellIcon: {
-    fontSize: 18,
-  },
-  cartContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: COLORS.primary,
-    justifyContent: 'center',
+  langPill: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 10,
-  },
-  cartIcon: {
-    fontSize: 18,
-    color: COLORS.white,
-  },
-  cartBadge: {
-    position: 'absolute',
-    top: -2,
-    right: -2,
-    backgroundColor: COLORS.error,
-    borderRadius: 10,
-    minWidth: 18,
-    height: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 15,
     borderWidth: 1,
-    borderColor: COLORS.white,
+    borderColor: '#E0E0E0',
+    marginRight: 10,
   },
-  cartBadgeText: {
-    color: COLORS.white,
-    fontSize: 10,
+  flagIcon: {
+    fontSize: 16,
+  },
+  greenChevronSmall: {
+    fontSize: 12,
+    color: COLORS.primary,
+    marginLeft: 4,
+    marginTop: -4,
+  },
+  dotsButton: {
+    padding: 4,
+  },
+  dotsIcon: {
+    fontSize: 20,
+    color: '#666',
     fontWeight: 'bold',
-  },
+  }
 });
 
 export default HomeHeader;
