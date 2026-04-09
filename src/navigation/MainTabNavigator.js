@@ -2,15 +2,37 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { COLORS } from '../constants/Theme';
-
 import HomeScreen from '../screens/HomeScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
+import ProductsScreen from '../screens/ProductsScreen';
+import CurrencyScreen from '../screens/CurrencyScreen';
+import LanguageScreen from '../screens/LanguageScreen';
+
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Dummy placeholders
 const PlaceholderScreen = ({ route }) => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.white }}>
     <Text style={{ fontSize: 20, fontWeight: 'bold', color: COLORS.text }}>{route.name} Screen</Text>
   </View>
+);
+
+const Stack = createNativeStackNavigator();
+
+const HomeStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="HomeScreen" component={HomeScreen} />
+    <Stack.Screen name="Products" component={ProductsScreen} />
+    <Stack.Screen name="Currency" component={CurrencyScreen} />
+    <Stack.Screen name="Language" component={LanguageScreen} />
+  </Stack.Navigator>
+);
+
+const CategoryStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
+    <Stack.Screen name="Products" component={ProductsScreen} />
+  </Stack.Navigator>
 );
 
 const Tab = createBottomTabNavigator();
@@ -67,7 +89,7 @@ export default function MainTabNavigator() {
     >
       <Tab.Screen 
         name="HomeTab" 
-        component={HomeScreen} 
+        component={HomeStack} 
         options={{ 
           tabBarIcon: ({color}) => <Text style={{fontSize: 24, color: COLORS.primary}}>⌂</Text> // Home filled
         }}
@@ -83,7 +105,7 @@ export default function MainTabNavigator() {
       {/* Floating Action Button in Center */}
       <Tab.Screen 
         name="Categories" 
-        component={CategoriesScreen} 
+        component={CategoryStack} 
         options={{ 
           tabBarIcon: () => (
             <View style={{flexWrap: 'wrap', width: 20, height: 20, flexDirection: 'row', justifyContent: 'space-between', alignContent: 'space-between'}}>

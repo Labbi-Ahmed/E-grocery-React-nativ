@@ -1,0 +1,14 @@
+{
+  "projectInfo": ".antigravity/memory/project.md",
+  "architecture": ".antigravity/memory/architecture.md",
+  "conventions": ".antigravity/memory/conventions.md",
+  "skills": {
+    "apiDesign": ".antigravity/skills/api-design.md",
+    "reactPatterns": ".antigravity/skills/react-patterns.md",
+    "caching": ".antigravity/skills/caching-strategy.md"
+  },
+  "tasks": {
+    "addFeature": ".antigravity/tasks/add-feature.md",
+    "bugfix": ".antigravity/tasks/bugfix.md"
+  }
+}
