@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SIZES } from '../constants/Theme';
+import { useAppContext } from '../context/AppContext';
 
 const CURRENCIES = [
   { id: '1', code: 'USD', title: 'United States dollar ($) - USD', flag: '🇺🇸' },
@@ -14,15 +15,18 @@ const CURRENCIES = [
 ];
 
 export default function CurrencyScreen({ navigation }) {
-  const [selectedCurrency, setSelectedCurrency] = useState('USD');
+  const { currency, setCurrency } = useAppContext();
   const [searchQuery, setSearchQuery] = useState('');
 
   const renderItem = ({ item }) => {
-    const isSelected = selectedCurrency === item.code;
+    const isSelected = currency === item.code;
     return (
       <TouchableOpacity 
         style={[styles.card, isSelected && styles.cardSelected]} 
-        onPress={() => setSelectedCurrency(item.code)}
+        onPress={() => {
+          setCurrency(item.code);
+          navigation.goBack();
+        }}
       >
         <View style={styles.leftContent}>
           <View style={styles.flagContainer}>

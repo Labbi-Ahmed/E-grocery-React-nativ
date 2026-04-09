@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SectionList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SIZES } from '../constants/Theme';
+import { useAppContext } from '../context/AppContext';
 
 const LANGUAGE_SECTIONS = [
   {
@@ -24,14 +25,17 @@ const LANGUAGE_SECTIONS = [
 ];
 
 export default function LanguageScreen({ navigation }) {
-  const [selectedLanguage, setSelectedLanguage] = useState('EN');
+  const { language, setLanguage } = useAppContext();
 
   const renderItem = ({ item }) => {
-    const isSelected = selectedLanguage === item.code;
+    const isSelected = language === item.code;
     return (
       <TouchableOpacity 
         style={styles.row} 
-        onPress={() => setSelectedLanguage(item.code)}
+        onPress={() => {
+          setLanguage(item.code);
+          navigation.goBack();
+        }}
       >
         <View style={styles.leftContent}>
           <Text style={styles.flag}>{item.flag}</Text>

@@ -1,20 +1,30 @@
 import React from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { COLORS, SIZES } from '../constants/Theme';
 
 const SearchBar = ({ onFilterPress }) => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
+      <TouchableOpacity 
+        style={styles.inputContainer} 
+        activeOpacity={0.8}
+        onPress={() => navigation.navigate('Search')}
+      >
         <Text style={styles.searchIcon}>🔍</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Search here..."
-          placeholderTextColor={COLORS.gray}
-        />
-      </View>
+        <View pointerEvents="none" style={{ flex: 1 }}>
+          <TextInput
+            style={styles.input}
+            placeholder="Search here..."
+            placeholderTextColor={COLORS.gray}
+            editable={false}
+          />
+        </View>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.filterButton} onPress={onFilterPress}>
-        <Text style={styles.filterIcon}>⚙️</Text>
+        <Text style={styles.filterIcon}>≡</Text>
       </TouchableOpacity>
     </View>
   );

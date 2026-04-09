@@ -7,6 +7,9 @@ import CategoriesScreen from '../screens/CategoriesScreen';
 import ProductsScreen from '../screens/ProductsScreen';
 import CurrencyScreen from '../screens/CurrencyScreen';
 import LanguageScreen from '../screens/LanguageScreen';
+import BestSellingScreen from '../screens/BestSellingScreen';
+import SearchScreen from '../screens/SearchScreen';
+import ProductDetailsScreen from '../screens/ProductDetailsScreen';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -25,6 +28,9 @@ const HomeStack = () => (
     <Stack.Screen name="Products" component={ProductsScreen} />
     <Stack.Screen name="Currency" component={CurrencyScreen} />
     <Stack.Screen name="Language" component={LanguageScreen} />
+    <Stack.Screen name="BestSelling" component={BestSellingScreen} />
+    <Stack.Screen name="Search" component={SearchScreen} />
+    <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
   </Stack.Navigator>
 );
 
@@ -32,6 +38,7 @@ const CategoryStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
     <Stack.Screen name="Products" component={ProductsScreen} />
+    <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
   </Stack.Navigator>
 );
 

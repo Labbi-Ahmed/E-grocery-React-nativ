@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { COLORS, SIZES } from '../constants/Theme';
 
 const { width } = Dimensions.get('window');
 const cardWidth = width * 0.42; // Adjusts card width to 42% of the screen width for consistent flow on all device sizes
 
 const ProductCard = ({ product }) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('ProductDetails', { product })}>
       {/* Discount Badge */}
       {product.discount && (
         <View style={styles.badge}>
@@ -34,7 +36,7 @@ const ProductCard = ({ product }) => {
       <TouchableOpacity style={styles.addButton}>
         <Text style={styles.addIcon}>+</Text>
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 };
 

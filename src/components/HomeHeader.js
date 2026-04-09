@@ -2,9 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, SIZES } from '../constants/Theme';
+import { useAppContext } from '../context/AppContext';
 
 const HomeHeader = ({ onMenuPress }) => {
   const navigation = useNavigation();
+  const { currency } = useAppContext();
 
   return (
     <View style={styles.container}>
@@ -19,7 +21,7 @@ const HomeHeader = ({ onMenuPress }) => {
       <TouchableOpacity style={styles.locationContainer} onPress={() => navigation.navigate('Currency')}>
         <Text style={styles.locationLabel}>Location/Currency</Text>
         <View style={styles.locationRow}>
-          <Text style={styles.locationValue}>USA, USD ($)</Text>
+          <Text style={styles.locationValue}>USA, {currency} ($)</Text>
           <Text style={styles.arrowIcon}>▼</Text>
         </View>
       </TouchableOpacity>
