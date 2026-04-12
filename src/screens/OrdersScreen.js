@@ -69,7 +69,11 @@ export default function OrdersScreen({ navigation }) {
           </View>
         ) : (
           filteredOrders.map((order) => (
-            <View key={order.id} style={styles.orderCard}>
+            <TouchableOpacity 
+              key={order.id} 
+              style={styles.orderCard}
+              onPress={() => navigation.navigate('OrderDetails', { orderId: order.id, status: order.status })}
+            >
               <View style={styles.orderCardHeader}>
                 <Text style={styles.orderId}>Order : {order.id}</Text>
                 <View style={[
@@ -130,7 +134,7 @@ export default function OrdersScreen({ navigation }) {
                   </TouchableOpacity>
                 ) : null}
               </View>
-            </View>
+            </TouchableOpacity>
           ))
         )}
       </ScrollView>

@@ -9,8 +9,9 @@ const PURCHASED_ITEMS = [
 ];
 
 export default function OrderDetailsScreen({ navigation, route }) {
-  // We can use route.params to determine if it's "Completed" or "In Progress"
-  const isCompleted = true; // For now default to TRUE as per user request
+  // Use status from route params or default to 'Completed'
+  const status = route.params?.status || 'Completed';
+  const isCompleted = status === 'Completed';
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -24,12 +25,24 @@ export default function OrderDetailsScreen({ navigation, route }) {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         {/* Status Card */}
-        <View style={styles.statusCard}>
-           <View style={styles.truckIconBox}>
+        <View style={[
+          styles.statusCard, 
+          status === 'In Progress' && { backgroundColor: '#FFF4E6' },
+          status === 'Canceled' && { backgroundColor: '#FFEDED' }
+        ]}>
+           <View style={[
+             styles.truckIconBox, 
+             status === 'In Progress' && { backgroundColor: '#FFA500' },
+             status === 'Canceled' && { backgroundColor: '#FF3B30' }
+           ]}>
               <Text style={{fontSize: 20, color: COLORS.white}}>🚚</Text>
            </View>
            <View style={styles.statusTextContainer}>
-              <Text style={styles.statusMainText}>Completed</Text>
+              <Text style={[
+                styles.statusMainText, 
+                status === 'In Progress' && { color: '#FFA500' },
+                status === 'Canceled' && { color: '#FF3B30' }
+              ]}>{status}</Text>
               <Text style={styles.statusSubText}>Orders will be received 24 Nov 2024</Text>
            </View>
            <Text style={styles.arrowGrey}>›</Text>
@@ -119,12 +132,19 @@ export default function OrderDetailsScreen({ navigation, route }) {
         </View>
       </ScrollView>
 
-      {/* Review Button */}
-      <View style={styles.footer}>
-         <TouchableOpacity style={styles.reviewBtn}>
-            <Text style={styles.reviewBtnText}>Add Review</Text>
-         </TouchableOpacity>
-      </View>
+      {/* Action Button Footer */}
+      {(status === 'In Progress' || status === 'Completed') && (
+        <View style={styles.footer}>
+           <TouchableOpacity 
+             style={styles.reviewBtn}
+             onPress={() => {
+               if(!isCompleted) navigation.navigate('TrackOrder');
+             }}
+           >
+              <Text style={styles.reviewBtnText}>{isCompleted ? 'Add Review' : 'Track Order'}</Text>
+           </TouchableOpacity>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
