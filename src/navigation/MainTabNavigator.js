@@ -11,6 +11,7 @@ import BestSellingScreen from '../screens/BestSellingScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ProductDetailsScreen from '../screens/ProductDetailsScreen';
 import CartScreen from '../screens/CartScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -46,6 +47,12 @@ const CategoryStack = () => (
 const CartStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="CartScreen" component={CartScreen} />
+  </Stack.Navigator>
+);
+
+const ProfileStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
   </Stack.Navigator>
 );
 
@@ -151,11 +158,11 @@ export default function MainTabNavigator() {
           )
         }}
       />
-      <Tab.Screen 
+       <Tab.Screen 
         name="Profile" 
-        component={PlaceholderScreen} 
+        component={ProfileStack} 
         options={{ 
-          tabBarIcon: ({color}) => <Text style={{fontSize: 24, color: COLORS.gray}}>👤</Text> 
+          tabBarIcon: ({color, focused}) => <Text style={{fontSize: 24, color: focused ? COLORS.primary : COLORS.gray}}>👤</Text> 
         }}
       />
     </Tab.Navigator>

@@ -14,6 +14,11 @@ import CheckoutScreen from '../screens/CheckoutScreen';
 import AddAddressScreen from '../screens/AddAddressScreen';
 import PaymentScreen from '../screens/PaymentScreen';
 import OrderDetailsScreen from '../screens/OrderDetailsScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import NotificationsScreen from '../screens/NotificationsScreen';
+import OrdersScreen from '../screens/OrdersScreen';
+import TrackOrderScreen from '../screens/TrackOrderScreen';
+import VoucherScreen from '../screens/VoucherScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +38,11 @@ export default function AppNavigator() {
         <Stack.Screen name="AddAddress" component={AddAddressScreen} />
         <Stack.Screen name="Payment" component={PaymentScreen} />
         <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="Notifications" component={NotificationsScreen} />
+        <Stack.Screen name="Orders" component={OrdersScreen} />
+        <Stack.Screen name="TrackOrder" component={TrackOrderScreen} />
+        <Stack.Screen name="Voucher" component={VoucherScreen} />
       </Stack.Navigator>
 
     </NavigationContainer>
