@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { COLORS, SIZES } from '../constants/Theme';
 
 const { width } = Dimensions.get('window');
-const cardWidth = width * 0.42; // Adjusts card width to 42% of the screen width for consistent flow on all device sizes
+const cardWidth = width * 0.44;
 
 const ProductCard = ({ product }) => {
   const navigation = useNavigation();
@@ -19,23 +19,32 @@ const ProductCard = ({ product }) => {
 
       {/* Product Image */}
       <View style={styles.imageContainer}>
-        <Text style={styles.imagePlaceholder}>[Image]</Text>
+        <Image 
+          source={{ uri: `https://api.a0.dev/assets/image?text=${encodeURIComponent(product.title)}&aspect=1:1` }} 
+          style={styles.image}
+          resizeMode="cover"
+        />
+        <TouchableOpacity style={styles.cartButton}>
+           <Text style={styles.cartIcon}>🛒</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Product Details */}
-      <Text style={styles.title} numberOfLines={1}>{product.title}</Text>
-      
-      <View style={styles.priceRow}>
-        <Text style={styles.price}>${product.price}</Text>
-        {product.originalPrice && (
-          <Text style={styles.originalPrice}>${product.originalPrice}</Text>
-        )}
+      <View style={styles.details}>
+        <Text style={styles.title} numberOfLines={1}>{product.title}</Text>
+        <View style={styles.bottomRow}>
+          <View style={styles.priceContainer}>
+             <Text style={styles.price}>${product.price ? product.price.toFixed(2) : '0.00'}</Text>
+             {product.originalPrice && (
+               <Text style={styles.originalPrice}>${product.originalPrice.toFixed(2)}</Text>
+             )}
+          </View>
+          <View style={styles.ratingBox}>
+            <Text style={styles.starText}>★</Text>
+            <Text style={styles.ratingText}>{product.rating || '4.0'}</Text>
+          </View>
+        </View>
       </View>
-
-      {/* Add To Cart Button */}
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addIcon}>+</Text>
-      </TouchableOpacity>
     </TouchableOpacity>
   );
 };
@@ -44,23 +53,19 @@ const styles = StyleSheet.create({
   card: {
     width: cardWidth,
     backgroundColor: COLORS.white,
-    borderRadius: SIZES.radius,
-    padding: 10,
-    marginRight: 15,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
+    borderRadius: 15,
     marginBottom: 5,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
   },
   badge: {
     position: 'absolute',
-    top: 10,
-    left: 10,
-    backgroundColor: COLORS.error,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+    top: 5,
+    right: 5,
+    backgroundColor: COLORS.secondary,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     borderRadius: 8,
     zIndex: 1,
   },
@@ -70,55 +75,76 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   imageContainer: {
-    height: 100,
-    backgroundColor: COLORS.lightGray,
-    borderRadius: 10,
+    height: 140,
+    backgroundColor: '#FAF9F6',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+    position: 'relative',
   },
-  imagePlaceholder: {
-    color: COLORS.gray,
-    fontSize: SIZES.small,
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  cartButton: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: COLORS.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  cartIcon: {
+    fontSize: 16,
+  },
+  details: {
+    padding: 10,
   },
   title: {
     fontSize: 14,
     fontWeight: '600',
     color: COLORS.text,
-    marginBottom: 5,
+    marginBottom: 8,
   },
-  priceRow: {
+  bottomRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 5,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  },
+  priceContainer: {
+    flex: 1,
   },
   price: {
     fontSize: 16,
     fontWeight: 'bold',
     color: COLORS.primary,
-    marginRight: 5,
   },
   originalPrice: {
     fontSize: 12,
     color: COLORS.gray,
     textDecorationLine: 'line-through',
+    marginTop: 2,
   },
-  addButton: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: COLORS.primary,
-    justifyContent: 'center',
+  ratingBox: {
+    flexDirection: 'row',
     alignItems: 'center',
   },
-  addIcon: {
-    color: COLORS.white,
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: -2,
+  starText: {
+    color: '#FFB800',
+    fontSize: 14,
+    marginRight: 4,
+  },
+  ratingText: {
+    fontSize: 12,
+    color: COLORS.gray,
+    fontWeight: '600',
   },
 });
 
