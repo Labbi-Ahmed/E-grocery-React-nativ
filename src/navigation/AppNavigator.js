@@ -10,6 +10,10 @@ import OtpVerificationScreen from '../screens/OtpVerificationScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import SuccessModalScreen from '../screens/SuccessModalScreen';
 import MainTabNavigator from './MainTabNavigator';
+import CheckoutScreen from '../screens/CheckoutScreen';
+import AddAddressScreen from '../screens/AddAddressScreen';
+import PaymentScreen from '../screens/PaymentScreen';
+import OrderDetailsScreen from '../screens/OrderDetailsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +29,10 @@ export default function AppNavigator() {
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="SuccessModal" component={SuccessModalScreen} options={{ presentation: 'modal' }} />
         <Stack.Screen name="Home" component={MainTabNavigator} />
+        <Stack.Screen name="Checkout" component={CheckoutScreen} />
+        <Stack.Screen name="AddAddress" component={AddAddressScreen} />
+        <Stack.Screen name="Payment" component={PaymentScreen} />
+        <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} />
       </Stack.Navigator>
 
     </NavigationContainer>

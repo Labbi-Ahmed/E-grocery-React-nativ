@@ -10,6 +10,7 @@ import LanguageScreen from '../screens/LanguageScreen';
 import BestSellingScreen from '../screens/BestSellingScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ProductDetailsScreen from '../screens/ProductDetailsScreen';
+import CartScreen from '../screens/CartScreen';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -39,6 +40,12 @@ const CategoryStack = () => (
     <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
     <Stack.Screen name="Products" component={ProductsScreen} />
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+  </Stack.Navigator>
+);
+
+const CartStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="CartScreen" component={CartScreen} />
   </Stack.Navigator>
 );
 
@@ -128,11 +135,11 @@ export default function MainTabNavigator() {
 
       <Tab.Screen 
         name="Cart" 
-        component={PlaceholderScreen} 
+        component={CartStack} 
         options={{ 
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({color, focused}) => (
             <View>
-              <Text style={{fontSize: 24, color: COLORS.gray}}>🛒</Text>
+              <Text style={{fontSize: 24, color: focused ? COLORS.primary : COLORS.gray}}>🛒</Text>
               <View style={{
                 position: 'absolute', right: -5, top: -5, 
                 backgroundColor: '#FFA500', borderRadius: 10, 

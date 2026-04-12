@@ -251,7 +251,10 @@ export default function ProductDetailsScreen({ navigation }) {
               <Text style={styles.qtyBtnMainText}>+</Text>
            </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.addToCartBtn}>
+        <TouchableOpacity 
+          style={styles.addToCartBtn}
+          onPress={() => navigation.navigate('Cart')}
+        >
           <Text style={styles.addToCartText}>Add To Cart</Text>
         </TouchableOpacity>
       </View>
