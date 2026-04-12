@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SIZES } from '../constants/Theme';
+import { useAppContext } from '../context/AppContext';
 
 const MENU_ITEMS = [
   { id: 'orders', title: 'My Orders', icon: '📦' },
@@ -13,6 +14,9 @@ const MENU_ITEMS = [
 ];
 
 export default function ProfileScreen({ navigation }) {
+  const { userType } = useAppContext();
+  const isWholesale = userType === 'Wholesale';
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
@@ -31,24 +35,29 @@ export default function ProfileScreen({ navigation }) {
               source={{ uri: 'https://api.a0.dev/assets/image?text=man%20profile%20picture&aspect=1:1' }} 
               style={styles.profileImage} 
             />
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>💎 Regular</Text>
+            <View style={[styles.badge, isWholesale && {backgroundColor: '#FF8C00'}]}>
+              <Text style={styles.badgeText}>💎 {userType}</Text>
             </View>
           </View>
           <Text style={styles.name}>Francene Vandyne</Text>
         </View>
 
-        {/* Wholesale Banner */}
-        <TouchableOpacity style={styles.wholesaleBanner}>
-           <View style={styles.crownContainer}>
-              <Text style={styles.crownIcon}>👑</Text>
-           </View>
-           <View style={styles.wholesaleTextContainer}>
-              <Text style={styles.wholesaleTitle}>Become a Wholesale Customer</Text>
-              <Text style={styles.wholesaleSubtitle}>Customer can buy products on wholesale</Text>
-           </View>
-           <Text style={styles.arrowRight}>›</Text>
-        </TouchableOpacity>
+        {/* Wholesale Banner (Only for Regular Customers) */}
+        {!isWholesale && (
+          <TouchableOpacity 
+            style={styles.wholesaleBanner}
+            onPress={() => navigation.navigate('Wholesale')}
+          >
+             <View style={styles.crownContainer}>
+                <Text style={styles.crownIcon}>👑</Text>
+             </View>
+             <View style={styles.wholesaleTextContainer}>
+                <Text style={styles.wholesaleTitle}>Become a Wholesale Customer</Text>
+                <Text style={styles.wholesaleSubtitle}>Customer can buy products on wholesale</Text>
+             </View>
+             <Text style={styles.arrowRight}>›</Text>
+          </TouchableOpacity>
+        )}
 
         {/* Menu List */}
         <View style={styles.menuList}>

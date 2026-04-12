@@ -4,10 +4,13 @@ import { COLORS, SIZES } from '../constants/Theme';
 import CustomInput from '../components/CustomInput';
 import PrimaryButton from '../components/PrimaryButton';
 import SocialButton from '../components/SocialButton';
+import { useAppContext } from '../context/AppContext';
 
 export default function SignInScreen({ navigation }) {
+  const { setUserType } = useAppContext();
   const [email, setEmail] = useState('test@example.com');
   const [password, setPassword] = useState('password');
+  const [selectedType, setSelectedType] = useState('Regular');
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -18,6 +21,21 @@ export default function SignInScreen({ navigation }) {
         </View>
 
         <View style={styles.formContainer}>
+          <View style={styles.typeSelector}>
+             <TouchableOpacity 
+               style={[styles.typeBtn, selectedType === 'Regular' && styles.typeBtnActive]}
+               onPress={() => setSelectedType('Regular')}
+             >
+                <Text style={[styles.typeBtnText, selectedType === 'Regular' && styles.typeBtnTextActive]}>Regular</Text>
+             </TouchableOpacity>
+             <TouchableOpacity 
+               style={[styles.typeBtn, selectedType === 'Wholesale' && styles.typeBtnActive]}
+               onPress={() => setSelectedType('Wholesale')}
+             >
+                <Text style={[styles.typeBtnText, selectedType === 'Wholesale' && styles.typeBtnTextActive]}>Wholesale</Text>
+             </TouchableOpacity>
+          </View>
+
           <CustomInput 
             placeholder="Type your email" 
             icon="mail-outline" 
@@ -40,6 +58,7 @@ export default function SignInScreen({ navigation }) {
             title="Sign In" 
             onPress={() => {
               if (email.toLowerCase().trim() === 'test@example.com' && password === 'password') {
+                setUserType(selectedType);
                 navigation.replace('Home');
               } else {
                 alert('Invalid credentials. Please use:\nEmail: test@example.com\nPassword: password');
@@ -108,6 +127,36 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     marginBottom: 30,
+  },
+  typeSelector: {
+    flexDirection: 'row',
+    marginBottom: 25,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 15,
+    padding: 5,
+  },
+  typeBtn: {
+    flex: 1,
+    paddingVertical: 12,
+    alignItems: 'center',
+    borderRadius: 12,
+  },
+  typeBtnActive: {
+    backgroundColor: COLORS.white,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  typeBtnText: {
+    fontSize: 15,
+    color: COLORS.gray,
+    fontWeight: '500',
+  },
+  typeBtnTextActive: {
+    color: COLORS.primary,
+    fontWeight: 'bold',
   },
   forgotPassword: {
     alignSelf: 'flex-end',

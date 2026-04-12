@@ -6,10 +6,13 @@ export const AppProvider = ({ children }) => {
   const [currency, setCurrency] = useState('USD');
   const [language, setLanguage] = useState('EN');
 
+  const [userType, setUserType] = useState('Regular'); // 'Regular' or 'Wholesale'
+
   return (
     <AppContext.Provider value={{
       currency, setCurrency,
-      language, setLanguage
+      language, setLanguage,
+      userType, setUserType
     }}>
       {children}
     </AppContext.Provider>

@@ -11,6 +11,8 @@ const VOUCHERS = [
 ];
 
 export default function VoucherScreen({ navigation }) {
+  const [selectedVoucher, setSelectedVoucher] = React.useState('3'); // Default to '3' as per mockup border
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
@@ -23,7 +25,14 @@ export default function VoucherScreen({ navigation }) {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         {VOUCHERS.map((item) => (
-          <View key={item.id} style={[styles.voucherCard, item.border && styles.voucherCardBorder]}>
+          <TouchableOpacity 
+            key={item.id} 
+            style={[
+              styles.voucherCard, 
+              selectedVoucher === item.id && styles.voucherCardBorder
+            ]}
+            onPress={() => setSelectedVoucher(item.id)}
+          >
              <View style={[styles.iconBox, { backgroundColor: item.color }]}>
                 <Text style={{fontSize: 24, color: COLORS.white}}>{item.icon}</Text>
              </View>
@@ -36,7 +45,12 @@ export default function VoucherScreen({ navigation }) {
                   <Text style={styles.expiryText}>End in {item.expiry}</Text>
                 </View>
              </View>
-          </View>
+             {selectedVoucher === item.id && (
+               <View style={styles.selectBadge}>
+                  <Text style={{color: COLORS.white, fontSize: 10}}>✓</Text>
+               </View>
+             )}
+          </TouchableOpacity>
         ))}
       </ScrollView>
 
@@ -74,8 +88,14 @@ const styles = StyleSheet.create({
     borderColor: '#F0F0F0',
     overflow: 'hidden',
     height: 120,
+    position: 'relative'
   },
-  voucherCardBorder: { borderColor: COLORS.primary },
+  voucherCardBorder: { borderColor: COLORS.primary, borderWidth: 1.5 },
+  selectBadge: {
+    position: 'absolute', top: 10, right: 10,
+    width: 20, height: 20, borderRadius: 10,
+    backgroundColor: COLORS.primary, justifyContent: 'center', alignItems: 'center'
+  },
   iconBox: { width: 100, height: '100%', justifyContent: 'center', alignItems: 'center' },
   dashedLine: { width: 1, height: '70%', borderLeftWidth: 1, borderLeftColor: '#DDD', borderStyle: 'dashed', marginHorizontal: 5 },
   voucherInfo: { flex: 1, padding: 15, justifyContent: 'center' },
